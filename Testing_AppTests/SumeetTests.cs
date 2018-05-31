@@ -15,7 +15,7 @@ namespace Testing_App.Tests
         public void SumTest()
         {
             Sumeet t = new Sumeet();
-            Assert.AreEqual(t.Sum(2, 3), 5);
+            Assert.AreEqual(t.Sum(2, 3), 6);
         }
     }
 }
