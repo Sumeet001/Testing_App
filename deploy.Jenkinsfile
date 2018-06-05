@@ -1,12 +1,15 @@
 pipeline {
     agent any
     environment {
-        CI = 'true',
+        CI = 'true'
         BRANCH_NAME = 'master'
         PROJECT_FILE='Testing_App.sln'
+		BUILD_NUMBER= '1.0'
     }
-    node{
+    node {
         
+		 git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
+
         stages {
 
             stage ('Nuget package install') {
@@ -18,8 +21,8 @@ pipeline {
             }
             stage('Build') {
                 steps {
-                        //bat 'nuget restore SolutionName.sln'
-                        bat "\"${tool 'MSBuild'}\" SolutionName.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
+                        //bat 'nuget restore Testing_App.sln'
+                        bat "\"${tool 'MSBuild'}\" Testing_App.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
 
                 }
             }
