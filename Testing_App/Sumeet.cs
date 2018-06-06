@@ -13,5 +13,9 @@ namespace Testing_App
         {
             return x * y;
         }
+        public int Test()
+        {
+            return 6;
+        }
     }
 }
