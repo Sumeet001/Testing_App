@@ -8,7 +8,7 @@ pipeline {
     }
     node {
         
-		 git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
+		 //git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
 
         stages {
 
