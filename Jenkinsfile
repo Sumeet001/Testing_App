@@ -22,8 +22,8 @@ pipeline {
             }
             stage('Build') {
                 steps {
-                githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
-        
+                //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
+                githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
                 //setBuildStatus("Success", "SUCCESS");
 
     //                 githubNotify account: 'raul-arabaolaza', context: 'Final Test', credentialsId: 'raul-github',
@@ -90,4 +90,10 @@ def updateGithubCommitStatus(build) {
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
+}
+def githubstatus(String context, String status, String message){
+  step([$class: 'GitHubCommitStatusSetter',
+      contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: context],
+      statusResultSource: [$class: 'ConditionalStatusResultSource',
+          results: [[$class: 'AnyBuildResult', state: status, message: message]]]])
 }
