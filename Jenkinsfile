@@ -6,7 +6,7 @@ pipeline {
         PROJECT_FILE='Testing_App.sln'
 		BUILD_NUMBER= '1.0'
     }
-    node {
+    //node {
         
 		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
 
@@ -31,7 +31,7 @@ pipeline {
           
         }
         
-    }
+   // }
 }
  void setBuildStatus(String message, String state) {
   step([
