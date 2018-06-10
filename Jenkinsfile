@@ -23,7 +23,7 @@ pipeline {
                 steps {
                        
                         //bat 'nuget restore Testing_App.sln'
-                        bat "\"${tool 'MSBuild'}\" Testing_App.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
+                        //bat "\"${tool 'MSBuild'}\" Testing_App.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
                         setBuildStatus("Build was successful","SUCCESS")
                 }
             }
