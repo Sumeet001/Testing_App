@@ -27,7 +27,7 @@ pipeline {
                         setBuildStatus("Build was successful","SUCCESS")
                 }
             }
-
+    
           
         }
         
