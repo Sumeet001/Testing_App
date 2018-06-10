@@ -17,16 +17,24 @@ pipeline {
                     echo "Nuget package installer started"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
                     //echo "Nuget package installer completed"
+                    setBuildStatus(context, "Pending", "SUCCESS");
                 }
             }
             stage('Build') {
                 steps {
-                    script{
-                       currentBuild.description="Test Description"
-                       currentBuild.currentResult="FAILURE"
-                       updateGithubCommitStatus(currentBuild)
-                       setBuildStatus("Build is in progress","PENDING")
-                    }
+
+                setBuildStatus(context, "Success", "SUCCESS");
+
+    //                 githubNotify account: 'raul-arabaolaza', context: 'Final Test', credentialsId: 'raul-github',
+    // description: 'This is an example', repo: 'acceptance-test-harness', sha: '0b5936eb903d439ac0c0bf84940d73128d5e9487'
+    // , status: 'SUCCESS', targetUrl: 'https://my-jenkins-instance.com'
+
+                    // script{
+                    //    currentBuild.description="Test Description"
+                    //    currentBuild.currentResult="FAILURE"
+                    //    updateGithubCommitStatus(currentBuild)
+                    //    setBuildStatus("Build is in progress","PENDING")
+                    // }
                         //bat 'nuget restore Testing_App.sln'
                         //bat "\"${tool 'MSBuild'}\" Testing_App.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
                         //setBuildStatus("Build Sucess + sumeet","SUCCESS")
