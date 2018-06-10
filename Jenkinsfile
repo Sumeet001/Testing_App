@@ -17,14 +17,14 @@ pipeline {
                     echo "Nuget package installer started"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
                     //echo "Nuget package installer completed"
-                    setBuildStatus("Pending", "SUCCESS");
+                    //setBuildStatus("Pending", "SUCCESS");
                 }
             }
             stage('Build') {
                 steps {
                 githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
         
-                setBuildStatus("Success", "SUCCESS");
+                //setBuildStatus("Success", "SUCCESS");
 
     //                 githubNotify account: 'raul-arabaolaza', context: 'Final Test', credentialsId: 'raul-github',
     // description: 'This is an example', repo: 'acceptance-test-harness', sha: '0b5936eb903d439ac0c0bf84940d73128d5e9487'
