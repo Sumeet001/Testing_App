@@ -31,7 +31,7 @@ pipeline {
                         //changes done
                        //pullRequest.comment('This PR is highly illogical..')
 
-                        //cahned
+                        //chnaged the value
                 }
             }
     
