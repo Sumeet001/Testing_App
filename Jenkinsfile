@@ -48,6 +48,13 @@ pipeline {
     
           
         }
+    post { 
+        always { 
+            echo 'setting at post'
+           setBuildStatus("Build is in progress","PENDING")
+        }
+    }
+
         
    // }
 }
