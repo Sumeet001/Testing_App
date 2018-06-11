@@ -15,6 +15,7 @@ pipeline {
             stage ('Nuget package install') {
                 steps{
                     echo "Nuget package installer started"
+                    echo env.BUILD_NUMBER
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
                     //echo "Nuget package installer completed"
                     //setBuildStatus("Pending", "SUCCESS");
