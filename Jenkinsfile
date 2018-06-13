@@ -22,10 +22,10 @@ pipeline {
                     withCredentials([usernameColonPassword(credentialsId: 'jenkinspassword', variable: 'USERPASS')]) {
 
                         bat '''
-                            set +x
-                        echo "$USERPASS"
+                      
+                        echo %USERPASS%"
                         echo "sumeet test
-                        type "$USERPASS" >> sumeet.txt
+                        type %USERPASS% >> sumeet.txt
                         '''
                     
                     }
