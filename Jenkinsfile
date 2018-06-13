@@ -54,7 +54,7 @@ pipeline {
                 steps {
 
                       bat '''
-                        echo 'sumeet'
+                        echo "sumeet"
                         echo %bundle_file%
                         echo %build_config%
                     '''
