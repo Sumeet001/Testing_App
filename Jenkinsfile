@@ -44,7 +44,7 @@ pipeline {
 
 
                     //echo env.BUILD_NUMBER
-                    bat "test.bat"
+                    //bat "test.bat"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
                     //echo "Nuget package installer completed"
                     //setBuildStatus("Pending", "SUCCESS");
