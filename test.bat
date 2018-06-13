@@ -1,3 +1,3 @@
-//SETLOCAL EnableDelayedExpansion
+SETLOCAL EnableDelayedExpansion
 echo %nuget_server%
-echo %%nuget_sdkfeed%%
+echo %nuget_sdkfeed%
