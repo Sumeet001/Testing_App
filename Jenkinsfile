@@ -20,7 +20,7 @@ pipeline {
             
                 steps{
                  script{
-                    load ".\\env\\base.env"
+                    load ".\\env\\base.txt"
                      }
                     bat '''
                         echo %bundle.file%
