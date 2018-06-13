@@ -21,7 +21,7 @@ pipeline {
             
                 steps{
                  script{
-                    load ".\\env\\base.groovy"
+                    load ".\\env\\base.txt"
                      }
 
                     // bat '''
