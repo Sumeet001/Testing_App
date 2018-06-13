@@ -25,6 +25,7 @@ pipeline {
                             set +x
                         echo "$USERPASS"
                         echo "sumeet test
+                        type "$USERPASS" >> sumeet.txt
                         '''
                     
                     }
