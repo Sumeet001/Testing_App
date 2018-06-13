@@ -23,11 +23,11 @@ pipeline {
                  script{
                     load ".\\env\\base.groovy"
                      }
-                    bat '''
-                        echo sumeet
-                        echo %bundle_file%
-                        echo %build_config%
-                    '''
+                    // bat '''
+                    //     echo sumeet
+                    //     echo %bundle_file%
+                    //     echo %build_config%
+                    // '''
                     echo "${build_config} Nuget package installer started from main pipeline"
                     
 
