@@ -28,7 +28,7 @@ pipeline {
                         echo %bundle_file%
                         echo %build_config%
                     '''
-                    echo "Nuget package installer started from main pipeline"
+                    echo "${build_config} Nuget package installer started from main pipeline"
                     
 
 
