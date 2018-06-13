@@ -16,12 +16,12 @@ pipeline {
         stages {
            
             stage ('Nuget package install') {
+                
+            
+                steps{
                  script{
                     load ".\\env\\base.env"
                      }
-            
-                steps{
-
                     bat '''
                         echo %bundle.file%
                         echo %build.config%
