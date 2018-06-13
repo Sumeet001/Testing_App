@@ -8,7 +8,7 @@ pipeline {
         AN_ACCESS_KEY = credentials('jenkinspassword') 
 
     }
-    //node {
+    node('testing') {
         
 		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
         
@@ -88,7 +88,7 @@ pipeline {
     }
 
         
-   // }
+    }
 }
 
 def getRepoURL() {
