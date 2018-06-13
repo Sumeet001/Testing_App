@@ -19,16 +19,15 @@ pipeline {
                     echo "Nuget package installer started from main pipeline"
                     
                     echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
-                    withCredentials([usernameColonPassword(credentialsId: 'jenkinspassword', variable: 'USERPASS')]) {
-
+                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                         bat '''
-                      
-                        echo %USERPASS%"
-                        echo "sumeet test
-                        type %USERPASS% >> sumeet.txt
-                        '''
-                    
-                    }
+                            echo %USERNAME%
+                            echo %PASSWORD%
+                            '''
+                        }
+                }
+
 
 
                     //echo env.BUILD_NUMBER
