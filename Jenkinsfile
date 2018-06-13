@@ -53,11 +53,7 @@ pipeline {
             stage('Build') {
                 steps {
 
-                      bat '''
-                        echo "sumeet"
-                        echo %bundle_file%
-                        echo %build_config%
-                    '''
+                      bat "test.bat"
                 //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
                 githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
                 //setBuildStatus("Success", "SUCCESS");
