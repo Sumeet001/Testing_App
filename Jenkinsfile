@@ -21,7 +21,7 @@ pipeline {
             
                 steps{
                  script{
-                    load ".\\env\\base.txt"
+                    load ".\\env\\base.env"
                      }
 
                     // bat '''
