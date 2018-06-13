@@ -26,7 +26,7 @@ pipeline {
                             echo %PASSWORD%
                             '''
                         }
-                }
+                
 
 
 
