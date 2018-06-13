@@ -14,7 +14,7 @@ pipeline {
         
         
         stages {
-            load ".//env//base.env"
+            load ".\\env\\base.env"
             stage ('Nuget package install') {
                 steps{
 
