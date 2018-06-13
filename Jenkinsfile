@@ -11,13 +11,20 @@ pipeline {
     //node {
         
 		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
-
+        load ".//env//base.env"
         stages {
 
             stage ('Nuget package install') {
                 steps{
+
+                    bat '''
+                        echo %bundle.file%
+                        echo %build.config%
+                    '''
                     echo "Nuget package installer started from main pipeline"
                     
+
+
                     //echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
                      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
