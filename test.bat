@@ -1,2 +1,2 @@
-echo %BuildLogFile%
-echo %bundle_file%
+
+echo %nuget_server%
