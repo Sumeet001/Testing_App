@@ -23,8 +23,8 @@ pipeline {
                     load ".\\env\\base.txt"
                      }
                     bat '''
-                        echo %bundle.file%
-                        echo %build.config%
+                        echo %bundle_file%
+                        echo %build_config%
                     '''
                     echo "Nuget package installer started from main pipeline"
                     
@@ -54,8 +54,9 @@ pipeline {
                 steps {
 
                       bat '''
-                        echo %bundle.file%
-                        echo %build.config%
+                        echo 'sumeet'
+                        echo %bundle_file%
+                        echo %build_config%
                     '''
                 //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
                 githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
