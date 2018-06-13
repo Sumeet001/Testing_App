@@ -5,6 +5,8 @@ pipeline {
         BRANCH_NAME = 'master'
         PROJECT_FILE='Testing_App.sln'
 		BUILD_NUMBER= '1.0'
+        AN_ACCESS_KEY = credentials('jenkinspassword') 
+
     }
     //node {
         
@@ -15,6 +17,8 @@ pipeline {
             stage ('Nuget package install') {
                 steps{
                     echo "Nuget package installer started from main pipeline"
+                    
+                    echo "password for jenkins is : $env.AN_ACCESS_KEY"
                     //echo env.BUILD_NUMBER
                     bat "test.bat"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
