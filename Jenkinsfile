@@ -18,7 +18,8 @@ pipeline {
                 steps{
                     echo "Nuget package installer started from main pipeline"
                     
-                    echo "password for jenkins is : $env.AN_ACCESS_KEY"
+                    echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
+                    
                     //echo env.BUILD_NUMBER
                     bat "test.bat"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
