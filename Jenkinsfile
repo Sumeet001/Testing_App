@@ -14,11 +14,12 @@ pipeline {
         
         
         stages {
-            script{
-                load ".\\env\\base.env"
-            }
-            
+           
             stage ('Nuget package install') {
+                 script{
+                    load ".\\env\\base.env"
+                     }
+            
                 steps{
 
                     bat '''
