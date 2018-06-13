@@ -25,8 +25,8 @@ pipeline {
                         load ".\\env\\base.env"
                     }
 
-                    echo "current build number is :: ${BUILD_NUMBER}"
-                    echo "${env.build_config} Nuget package installer started from main pipeline"
+                    echo "current build number is :: ${env.BUILD_NUMBER} "
+                    echo "${env.BUILD_DISPLAY_NAME} Nuget package installer started from main pipeline"
                     
 
 
