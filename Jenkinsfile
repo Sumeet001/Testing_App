@@ -5,7 +5,7 @@ pipeline {
         CI = 'true'
         BRANCH_NAME = 'master'
         PROJECT_FILE='Testing_App.sln'
-		BUILD_NUMBER= '1.0'
+		//BUILD_NUMBER= '1.0'
         AN_ACCESS_KEY = credentials('jenkinspassword') 
 
     }
@@ -20,15 +20,12 @@ pipeline {
                 
             
                 steps{
-                 script{
-                    load ".\\env\\base.env"
-                     }
+                    script
+                    {
+                        load ".\\env\\base.env"
+                    }
 
-                    // bat '''
-                    //     echo sumeet
-                    //     echo %bundle_file%
-                    //     echo %build_config%
-                    // '''
+                    echo "current build number is :: ${BUILD_NUMBER}"
                     echo "${env.build_config} Nuget package installer started from main pipeline"
                     
 
