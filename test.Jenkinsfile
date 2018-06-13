@@ -25,6 +25,8 @@ pipeline {
             }
             stage('Build') {
                 steps {
+
+                    echo 'build step done'
                 //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
                 //githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
                 //setBuildStatus("Success", "SUCCESS");
