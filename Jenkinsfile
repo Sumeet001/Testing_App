@@ -24,6 +24,7 @@ pipeline {
                     load ".\\env\\base.groovy"
                      }
                     bat '''
+                        echo sumeet
                         echo %bundle_file%
                         echo %build_config%
                     '''
@@ -31,15 +32,15 @@ pipeline {
                     
 
 
-                    //echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
-                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                      //  bat '''
-                      //      type %USERNAME%
-                      //      type %PASSWORD%
-                      //      '''
-                            echo "password for jenkins is : ${PASSWORD}"  
-                        }
+                    // //echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
+                    //  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
+                    // usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    //   //  bat '''
+                    //   //      type %USERNAME%
+                    //   //      type %PASSWORD%
+                    //   //      '''
+                    //         echo "password for jenkins is : ${PASSWORD}"  
+                    //     }
                 
 
 
