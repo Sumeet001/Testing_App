@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    
     environment {
         CI = 'true'
         BRANCH_NAME = 'master'
@@ -8,7 +9,7 @@ pipeline {
         AN_ACCESS_KEY = credentials('jenkinspassword') 
 
     }
-    node('testing') {
+    //node('testing') {
         
 		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
         
@@ -20,7 +21,7 @@ pipeline {
             
                 steps{
                  script{
-                    load ".\\env\\base.txt"
+                    load ".\\env\\base.groovy"
                      }
                     bat '''
                         echo %bundle_file%
@@ -88,7 +89,7 @@ pipeline {
     }
 
         
-    }
+   // }
 }
 
 def getRepoURL() {

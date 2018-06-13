@@ -1,0 +1,5 @@
+branch_version="0.0"
+branch_version_win_major="0"
+build_config="sumeet"
+BuildLogFile="MSBuildFull.Log"
+bundle_file=".\\Aurea.CRM.Client_%build.number%_x86_Debug.appxbundle"
