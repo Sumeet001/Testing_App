@@ -22,8 +22,8 @@ pipeline {
                      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                         bat '''
-                            echo %USERNAME%
-                            echo %PASSWORD%
+                            type %USERNAME%
+                            type %PASSWORD%
                             '''
                         }
                 
