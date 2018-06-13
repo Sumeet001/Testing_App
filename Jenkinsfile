@@ -29,7 +29,7 @@ pipeline {
                     //     echo %bundle_file%
                     //     echo %build_config%
                     // '''
-                    echo "${env.build_config} Nuget package installer started from main pipeline"
+                    echo "${env.build.config} Nuget package installer started from main pipeline"
                     
 
 

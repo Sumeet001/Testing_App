@@ -1,2 +1,3 @@
 echo %BuildLogFile%
-echo %bundle_file%
+echo %bundle.file%
+
