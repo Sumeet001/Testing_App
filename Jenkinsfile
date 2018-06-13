@@ -20,8 +20,12 @@ pipeline {
                     
                     echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
                     withCredentials([usernameColonPassword(credentialsId: 'jenkinspassword', variable: 'USERPASS')]) {
+
+                        bat '''
+                            set +x
                         echo "$USERPASS"
-                        echo "sumeet test"
+                        echo "sumeet test
+                        '''
                     
                     }
 
