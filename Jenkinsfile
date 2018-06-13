@@ -19,7 +19,7 @@ pipeline {
                     echo "Nuget package installer started from main pipeline"
                     
                     echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
-                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
+                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                         bat '''
                             echo %USERNAME%
