@@ -11,9 +11,10 @@ pipeline {
     //node {
         
 		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
-        load ".//env//base.env"
+        
+        
         stages {
-
+            load ".//env//base.env"
             stage ('Nuget package install') {
                 steps{
 
