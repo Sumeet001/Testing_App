@@ -14,7 +14,8 @@ pipeline {
 
             stage ('Nuget package install') {
                 steps{
-                    echo "Nuget package installer started from main pipeline"
+                    echo "Running another pipeline from test"
+                    echo "Nuget package installer started"
                     //echo env.BUILD_NUMBER
                     bat "test.bat"
                     //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
@@ -25,7 +26,7 @@ pipeline {
             stage('Build') {
                 steps {
                 //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
-                githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
+                //githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
                 //setBuildStatus("Success", "SUCCESS");
 
     //                 githubNotify account: 'raul-arabaolaza', context: 'Final Test', credentialsId: 'raul-github',
@@ -59,50 +60,4 @@ pipeline {
 
         
    // }
-}
-
-def getRepoURL() {
-  sh "git config --get remote.origin.url > .git/remote-url"
-  return readFile(".git/remote-url").trim()
-}
- 
-def getCommitSha() {
-  sh "git rev-parse HEAD > .git/current-commit"
-  return readFile(".git/current-commit").trim()
-}
- 
-def updateGithubCommitStatus(build) {
-  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
-  repoUrl = getRepoURL()
-  commitSha = getCommitSha()
- 
-  step([
-    $class: 'GitHubCommitStatusSetter',
-    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-    statusResultSource: [
-      $class: 'ConditionalStatusResultSource',
-      results: [
-        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
-        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
-        [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
-      ]
-    ]
-  ])
-}
- void setBuildStatus(String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/Sumeet001/Testing_App"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status/sumeet"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
-}
-def githubstatus(String context, String status, String message){
-  step([$class: 'GitHubCommitStatusSetter',
-      contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: context],
-      statusResultSource: [$class: 'ConditionalStatusResultSource',
-          results: [[$class: 'AnyBuildResult', state: status, message: message]]]])
 }
