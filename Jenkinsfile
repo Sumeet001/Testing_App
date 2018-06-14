@@ -214,7 +214,7 @@ pipeline {
                        
                 }
             }
-             stage('Uninstall natively') {
+             stage('Install natively') {
                    when {
                       environment name: 'CI_BUILD', value: 'false'
                  }
