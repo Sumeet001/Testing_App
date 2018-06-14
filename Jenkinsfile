@@ -1,138 +1,327 @@
 pipeline {
-    agent any
-    
-    environment {
-        CI = 'true'
-        BRANCH_NAME = 'master'
-        PROJECT_FILE='Testing_App.sln'
-		//BUILD_NUMBER= '1.0'
-        AN_ACCESS_KEY = credentials('jenkinspassword') 
+    //agent any
+    agent { label 'windows' }
 
-    }
-    //node('testing') {
-        
-		// git poll: true, url: 'https://github.com/Sumeet001/Testing_App'
-        
-        
+        environment {
+            CI_BUILD = 'true'
+            PROJECT_FILE='Aurea.CRM.Client.sln'
+            nuget_restore_target="Aurea.CRM.Client.sln"
+            path_to_solution_ft="Aurea.CRM.UWPClient/Aurea.CRM.WinClient.Functional.Tests/Aurea.CRM.WinClient.Functional.Tests.sln"
+            TOOL_FOLDER='C:\\Tools'
+            path_to_solution_shared="Aurea.CRM.Client.Shared.sln"
+        }
         stages {
-           
-            stage ('Nuget package install') {
-                
-            
+            stage('Git source fetch')
+            {
                 steps{
-                    script
-                    {
-                        load ".\\env\\base.env"
-                    }
-
-                    echo "current build number is :: ${env.BUILD_NUMBER} "
-                    echo "${env.BUILD_DISPLAY_NAME} Nuget package installer started from main pipeline"
+                    echo env.BRANCH_NAME
+                    echo 'Intializing the build'
                     
-
-
-                    // //echo "password for jenkins is : ${env.AN_ACCESS_KEY}"   
-                    //  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkinspassword',
-                    // usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    //   //  bat '''
-                    //   //      type %USERNAME%
-                    //   //      type %PASSWORD%
-                    //   //      '''
-                    //         echo "password for jenkins is : ${PASSWORD}"  
-                    //     }
-                
-
-
-
-                    //echo env.BUILD_NUMBER
-                    //bat "test.bat"
-                    //bat "C:\\Tools\\nuget.exe restore  %WORKSPACE%\\Testing_App.sln -ConfigFile nuget.config"
-                    //echo "Nuget package installer completed"
-                    //setBuildStatus("Pending", "SUCCESS");
                 }
             }
-            stage('Build') {
+            stage("Nuget Restore With Retry")
+            {
+                steps{
+                    powershell returnStdout: true, script: '''
+                            .\\scripts\\jenkins\\MakeBundle_x86_Debug.ps1
+                            '''
+                }
+            }
+            stage("Restore NuGetPackages FTs")
+            {
+                when {
+                     CI_BUILD 'false'
+                }
+                steps{
+                    //TODO: ask for command
+                     powershell returnStdout: true, script: '''
+                            .\\scripts\\jenkins\\RestoreNuGetPackagesFTs.ps1
+                            '''
+                }
+
+            }
+            stage("Reset VS Tools Environment")
+            {
+                steps{
+                    //TODO ask for justification
+                    bat "c:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\Tools\\vcvarsqueryregistry.bat"
+                }
+            }
+            stage("Building Shared")
+            {
+                when {
+                     CI_BUILD 'false'
+                }
+                steps{
+                    //TODO: ask for command
+                     powershell returnStdout: true, script: '''
+                            .\\scripts\\jenkins\\BuildShared.ps1
+                            '''
+                }
+
+            }
+            stage('Building CI') {
+                  when {
+                     CI_BUILD 'true'
+                }
                 steps {
-
-                      bat "test.bat"
-                //githubNotify account: 'Sumeet001', context: 'continuous-integration/jenkins/sumeet', credentialsId: 'github', description: 'Testing build status', gitApiUrl: '', repo: 'Testing_App', sha: GIT_COMMIT, status: 'SUCCESS', targetUrl: ''
-                githubstatus('continuous-integration/jenkins/sumeet1',"Success", "SUCCESS");
-                //setBuildStatus("Success", "SUCCESS");
-
-    //                 githubNotify account: 'raul-arabaolaza', context: 'Final Test', credentialsId: 'raul-github',
-    // description: 'This is an example', repo: 'acceptance-test-harness', sha: '0b5936eb903d439ac0c0bf84940d73128d5e9487'
-    // , status: 'SUCCESS', targetUrl: 'https://my-jenkins-instance.com'
-
-                    // script{
-                    //    currentBuild.description="Test Description"
-                    //    currentBuild.currentResult="FAILURE"
-                    //    updateGithubCommitStatus(currentBuild)
-                    //    setBuildStatus("Build is in progress","PENDING")
-                    // }
-                        //bat 'nuget restore Testing_App.sln'
-                        //bat "\"${tool 'MSBuild'}\" Testing_App.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
-                        //setBuildStatus("Build Sucess + sumeet","SUCCESS")
-                        //changes done
-                       //pullRequest.comment('This PR is highly illogical..')
-
-                        //chnaged the value
+                        //TODO: ask for command
+                        echo "Build Started...."
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\MakeBundle_x86_Debug.ps1
+                            cd ..'''
+                        echo "Build Completed successfully"
                 }
             }
-    
-          
-        }
-    post { 
-        always { 
-            echo 'setting at post'
-           setBuildStatus("Build is in progress","PENDING")
-        }
-    }
+             stage('Building FT') {
+                  when {
+                     CI_BUILD 'false'
+                }
+                steps {
+                        //TODO: ask for command
+                        echo "Build Started...."
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\MakeBundle_FT_x86_Debug.ps1
+                            cd ..'''
+                        echo "Build Completed successfully"
+                }
+            }
 
-        
-   // }
-}
+            stage('Process Build warning report') {
+                //   when {
+                //      CI_BUILD 'true'
+                // }
+                steps {
+                        //TODO: ask for command
+                        echo "Build Started...."
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\ProcessBuildWarningReport.ps1
+                            cd ..'''
+                        echo "Build Completed successfully"
+                }
+            }    
 
-def getRepoURL() {
-  sh "git config --get remote.origin.url > .git/remote-url"
-  return readFile(".git/remote-url").trim()
-}
- 
-def getCommitSha() {
-  sh "git rev-parse HEAD > .git/current-commit"
-  return readFile(".git/current-commit").trim()
-}
- 
-def updateGithubCommitStatus(build) {
-  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
-  repoUrl = getRepoURL()
-  commitSha = getCommitSha()
- 
-  step([
-    $class: 'GitHubCommitStatusSetter',
-    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-    statusResultSource: [
-      $class: 'ConditionalStatusResultSource',
-      results: [
-        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
-        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
-        [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
-      ]
-    ]
-  ])
-}
- void setBuildStatus(String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/Sumeet001/Testing_App"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status/sumeet"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
-}
-def githubstatus(String context, String status, String message){
-  step([$class: 'GitHubCommitStatusSetter',
-      contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: context],
-      statusResultSource: [$class: 'ConditionalStatusResultSource',
-          results: [[$class: 'AnyBuildResult', state: status, message: message]]]])
-}
+            stage('Register Certificates') {
+                //   when {
+                //      CI_BUILD 'true'
+                // }
+                steps {
+                        //TODO: ask for command
+                        echo "Build Started...."
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\RegisterCertificates.ps1
+                            cd ..'''
+                        echo "Build Completed successfully"
+                }
+            }
+
+             stage('Run UTs with coverage') {
+                   when {
+                      CI_BUILD 'true'
+                 }
+                steps {
+                        //TODO: ask for command
+                        env.UT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll 
+                        \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll
+                        \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll
+                        \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
+
+                        env.TestCategory="TestCategory!=Intgration.Tests"
+                        env.UTFilter="+:Aurea.CRM.Client
+                                        +:Aurea.CRM.Core
+                                        +:Aurea.CRM.UIModel
+                                        +:Aurea.CRM.Client.UI
+                                        +:Aurea.CRM.Services"
+                        env.DotCoverArgument="/Filters=+:module=Aurea.CRM.Core;+:module=Aurea.CRM.UIModel;+:module=Aurea.CRM.Client.UI;+:module=Aurea.CRM.Services;-:type=Aurea.CRM.Client.UI.Views.Search.FilterView*;-:type=Aurea.CRM.Client.UI.UIControls.SearchBarView*;-:type=Aurea.CRM.Client.UI.Resources*;-:type=Aurea.CRM.Client.UI.Views.ActionsView*;-:type=Aurea.CRM.Client.UI.Views.Search.GlobalSearchPopup*;-:module=*.Tests;"
+                        env.VSTest="VSTest 2017"
+
+                       
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\TestsWithUTCoverage.ps1
+                            cd ..'''
+                       
+                }
+            }
+            
+
+             stage('Run ITs with coverage (by category)') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command
+                        env.IT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll
+                                                \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll
+                                                \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll
+                                                \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
+
+                        env.TestCategory="TestCategory=Intgration.Tests"
+                        env.UTFilter="+:Aurea.CRM.Client
+                                        +:Aurea.CRM.Core
+                                        +:Aurea.CRM.UIModel
+                                        +:Aurea.CRM.Services
+                                        +:Aurea.CRM.Client.UI"
+                        env.DotCoverArgument="/Filters=+:module=Aurea.CRM.Core;+:module=Aurea.CRM.UIModel;+:module=Aurea.CRM.Client.UI;+:module=Aurea.CRM.Services;-:type=Aurea.CRM.Client.UI.Views.Search.FilterView*;-:type=Aurea.CRM.Client.UI.UIControls.SearchBarView*;-:type=Aurea.CRM.Client.UI.Resources*;-:type=Aurea.CRM.Client.UI.Views.ActionsView*;-:type=Aurea.CRM.Client.UI.Views.Search.GlobalSearchPopup*;-:module=*.Tests;"
+                        env.VSTest="VSTest 2017"
+
+                       
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\TestsWithUTCoverage.ps1
+                            cd ..'''
+                       
+                }
+            }
+             stage('Run FTs (no coverage)') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command
+                        env.FT_CoverageFiles="Aurea.CRM.UWPClient\\Aurea.CRM.WinClient.Functional.Tests\\bin\\%build.config%\\Aurea.CRM.WinClient.Functional.*.dll"
+                      
+                        env.VSTest="VSTest 2017"
+                        env.FT_TestName="OpenCrmWinClientFromWebUrlTest.OpenCrmClientFromWebUrl"
+                       
+                       powershell returnStdout: true, script: '''cd scripts
+                            .\\TestsWithFTNoCoverage.ps1
+                            cd ..'''
+                       
+                }
+            }
+            stage('Verify Bundle') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command
+                       
+                      bat ".//scripts/verifybundle.bat"
+                       
+                }
+            }
+
+             stage('Uninstall natively') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command
+                       
+                    powershell returnStdout: true, script: '''cd scripts
+                            .\\UninstallNatively.ps1
+                            cd ..'''
+                       
+                }
+            }
+
+             stage('Uninstall natively') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command and to be passed
+                       
+                    powershell returnStdout: true, script: '''cd scripts
+                            .\\InstallNatively.ps1
+                            cd ..'''
+                       
+                }
+            }
+             stage('Uninstall natively') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command and to be passed
+                       
+                    powershell returnStdout: true, script: '''cd scripts
+                            .\\InstallNatively.ps1
+                            cd ..'''
+                       
+                }
+            }
+            stage('Repack Bundle') {
+                   when {
+                      CI_BUILD 'false'
+                 }
+                steps {
+                        //TODO: ask for command and to be passed
+                       
+                    powershell returnStdout: true, script: '''
+                            .\\scripts\RepackBundle.ps1.ps1 -buildNumber %build.number% -buildConfig %build.config%
+                            '''
+                       
+                }
+            }
+            stage('Upload Bundle') {
+                  when {
+                      CI_BUILD 'false'
+                 } 
+                steps {
+                        //TODO: ask for command and to be passed
+                     bat ".//scripts//UploadBundle.bat"
+                       
+                }
+            
+            }
+            stage('OSS Report') {
+                  when {
+                      CI_BUILD 'false'
+                 } 
+                steps {
+                        //TODO: ask for command and to be passed
+                     bat ".//scripts//OSSReport.bat"
+                       
+                }
+            
+            }
+            stage ('Nuget package install') {
+                steps{
+                    echo "Nuget package installer started"
+                     bat ".\\scripts\\jenkins\\nuget-restore.bat"
+                     echo "Nuget package installer completed"
+                    
+                }
+            }
+            
+            stage ('Warnings')
+            {
+                steps{
+                    step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'MSBuild', pattern: 'MSBuildFull.log']], unHealthy: ''])
+                }
+            
+            }
+            stage('Runing Tests'){
+
+                steps{
+                        //testing this phase
+                        echo 'Running Tests'
+                        bat ".\\scripts\\jenkins\\opencover.bat"
+                        echo 'Test executed successfully'
+
+                }
+            }
+            stage('Publishing Test Results'){
+                steps{
+                    step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: false, keepLongStdio: true])
+                }
+            }
+            stage('Publishing Coverage Report'){
+                steps{
+                            echo 'generating test coverage report'    
+                            bat ".\\scripts\\jenkins\\reportgenerator.bat"
+                            echo 'report generation completed'
+                       
+                            echo 'converting test coverage report...'
+                            bat ".\\scripts\\jenkins\\convertreport.bat"
+                            echo 'test coverage report convertion completed'
+                            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'Cobertura.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+                  }
+            }   
+        }
+   }
+      
+
+
+
+
