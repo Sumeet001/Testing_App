@@ -1,0 +1,1 @@
+%u8.scancode.dir%\scancode --format html packages ossreport.html -l

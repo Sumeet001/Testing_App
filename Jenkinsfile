@@ -15,8 +15,13 @@ pipeline {
             stage('Git source fetch')
             {
                 steps{
+                    script
+                    {
+                        load ".\\env\\base.env"
+                    }
                     echo env.BRANCH_NAME
                     echo 'Intializing the build'
+
                     
                 }
             }

@@ -1,0 +1,2 @@
+"C:\\Tools\\opencover\\opencover.console.exe" -register:administrator -target:"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\vstest.console.exe"  -output:"coverage.xml" -targetargs:"%WORKSPACE%\\Shared\\Debug\\Aurea.CRM.Services.Tests.dll %WORKSPACE%\\Shared\\Debug\\Aurea.CRM.UIModel.Tests.dll %WORKSPACE%\\Shared\\Debug\\Aurea.CRM.Client.UI.Tests.dll %WORKSPACE%\\Shared\\Debug\\Aurea.CRM.Core.Tests.dll /logger:trx" -filter:[] -mergebyhash
+                      

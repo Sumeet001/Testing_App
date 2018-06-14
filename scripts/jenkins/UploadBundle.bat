@@ -1,0 +1,1 @@
+curl.exe --insecure -v -X PUT -u "%nexus.username%":"%nexus.password.win%" "https://nexus.devfactory.com/repository/acrm-client-release/UWPClient/v%branch.version.win.major%/%quarter%/%nexus.upload.config%/UWPClient_%build.number%_%build.config%.zip" --upload-file .\AppxPackages.zip

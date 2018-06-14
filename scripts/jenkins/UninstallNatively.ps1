@@ -1,0 +1,1 @@
+Get-AppxPackage 178E3AFA.AureaCRMClient | Remove-AppxPackage

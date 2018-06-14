@@ -1,0 +1,1 @@
+"C:\\Tools\\opencovertocoberturaconverter\\OpenCoverToCoberturaConverter.exe" -input:Coverage.xml -output:Cobertura.xml -sources:%WORKSPACE%

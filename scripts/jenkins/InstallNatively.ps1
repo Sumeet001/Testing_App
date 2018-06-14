@@ -1,0 +1,1 @@
+%teamcity.build.checkoutDir%\%bundle.path%\Add-AppDevPackage.ps1 -Force 
