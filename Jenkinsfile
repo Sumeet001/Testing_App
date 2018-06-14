@@ -235,7 +235,7 @@ pipeline {
                         //TODO: ask for command and to be passed
                        
                     powershell returnStdout: true, script: '''
-                            .\\scripts\RepackBundle.ps1.ps1 -buildNumber %build.number% -buildConfig %build.config%
+                            .\\scripts\\RepackBundle.ps1.ps1 -buildNumber %build.number% -buildConfig %build.config%
                             '''
                        
                 }
@@ -246,7 +246,7 @@ pipeline {
                  } 
                 steps {
                         //TODO: ask for command and to be passed
-                     bat ".//scripts//UploadBundle.bat"
+                     bat ".\\scripts\\UploadBundle.bat"
                        
                 }
             
