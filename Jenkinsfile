@@ -122,17 +122,10 @@ pipeline {
                  }
                 steps {
                         //TODO: ask for command
-                        env.UT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll 
-                        \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll
-                        \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll
-                        \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
+                        env.UT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
 
                         env.TestCategory="TestCategory!=Intgration.Tests"
-                        env.UTFilter="+:Aurea.CRM.Client
-                                        +:Aurea.CRM.Core
-                                        +:Aurea.CRM.UIModel
-                                        +:Aurea.CRM.Client.UI
-                                        +:Aurea.CRM.Services"
+                        env.UTFilter="+:Aurea.CRM.Client +:Aurea.CRM.Core +:Aurea.CRM.UIModel +:Aurea.CRM.Client.UI +:Aurea.CRM.Services"
                         env.DotCoverArgument="/Filters=+:module=Aurea.CRM.Core;+:module=Aurea.CRM.UIModel;+:module=Aurea.CRM.Client.UI;+:module=Aurea.CRM.Services;-:type=Aurea.CRM.Client.UI.Views.Search.FilterView*;-:type=Aurea.CRM.Client.UI.UIControls.SearchBarView*;-:type=Aurea.CRM.Client.UI.Resources*;-:type=Aurea.CRM.Client.UI.Views.ActionsView*;-:type=Aurea.CRM.Client.UI.Views.Search.GlobalSearchPopup*;-:module=*.Tests;"
                         env.VSTest="VSTest 2017"
 
@@ -151,17 +144,10 @@ pipeline {
                  }
                 steps {
                         //TODO: ask for command
-                        env.IT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll
-                                                \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll
-                                                \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll
-                                                \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
+                        env.IT_CoverageFiles="\\Shared\\%build.config%\\Aurea.CRM.UIModel.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Core.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Client.UI.Tests.dll \\Shared\\%build.config%\\Aurea.CRM.Services.Tests.dll"
 
                         env.TestCategory="TestCategory=Intgration.Tests"
-                        env.UTFilter="+:Aurea.CRM.Client
-                                        +:Aurea.CRM.Core
-                                        +:Aurea.CRM.UIModel
-                                        +:Aurea.CRM.Services
-                                        +:Aurea.CRM.Client.UI"
+                        env.UTFilter="+:Aurea.CRM.Client +:Aurea.CRM.Core +:Aurea.CRM.UIModel +:Aurea.CRM.Services +:Aurea.CRM.Client.UI"
                         env.DotCoverArgument="/Filters=+:module=Aurea.CRM.Core;+:module=Aurea.CRM.UIModel;+:module=Aurea.CRM.Client.UI;+:module=Aurea.CRM.Services;-:type=Aurea.CRM.Client.UI.Views.Search.FilterView*;-:type=Aurea.CRM.Client.UI.UIControls.SearchBarView*;-:type=Aurea.CRM.Client.UI.Resources*;-:type=Aurea.CRM.Client.UI.Views.ActionsView*;-:type=Aurea.CRM.Client.UI.Views.Search.GlobalSearchPopup*;-:module=*.Tests;"
                         env.VSTest="VSTest 2017"
 
