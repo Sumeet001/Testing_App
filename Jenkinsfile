@@ -201,19 +201,6 @@ pipeline {
                 }
             }
 
-             stage('Uninstall natively') {
-                   when {
-                      environment name: 'CI_BUILD', value: 'false'
-                 }
-                steps {
-                        //TODO: ask for command and to be passed
-                       
-                    powershell returnStdout: true, script: '''cd scripts
-                            .\\InstallNatively.ps1
-                            cd ..'''
-                       
-                }
-            }
              stage('Install natively') {
                    when {
                       environment name: 'CI_BUILD', value: 'false'
