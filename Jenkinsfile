@@ -31,7 +31,7 @@ pipeline {
             stage("Restore NuGetPackages FTs")
             {
                 when {
-                     CI_BUILD "NO"
+                     environment name: 'CI_BUILD', value: 'false'
                 }
                 steps{
                     //TODO: ask for command
@@ -51,7 +51,7 @@ pipeline {
             stage("Building Shared")
             {
                 when {
-                     CI_BUILD "NO"
+                     environment name: 'CI_BUILD', value: 'false'
                 }
                 steps{
                     //TODO: ask for command
@@ -63,7 +63,7 @@ pipeline {
             }
             stage('Building CI') {
                   when {
-                     CI_BUILD 'true'
+                     environment name: 'CI_BUILD', value: 'true'
                 }
                 steps {
                         //TODO: ask for command
@@ -76,7 +76,7 @@ pipeline {
             }
              stage('Building FT') {
                   when {
-                     CI_BUILD "NO"
+                     environment name: 'CI_BUILD', value: 'false'
                 }
                 steps {
                         //TODO: ask for command
@@ -90,7 +90,7 @@ pipeline {
 
             stage('Process Build warning report') {
                 //   when {
-                //      CI_BUILD 'true'
+                //      environment name: 'CI_BUILD', value: 'true'
                 // }
                 steps {
                         //TODO: ask for command
@@ -104,7 +104,7 @@ pipeline {
 
             stage('Register Certificates') {
                 //   when {
-                //      CI_BUILD 'true'
+                //      environment name: 'CI_BUILD', value: 'true'
                 // }
                 steps {
                         //TODO: ask for command
@@ -118,7 +118,7 @@ pipeline {
 
              stage('Run UTs with coverage') {
                    when {
-                      CI_BUILD 'true'
+                      environment name: 'CI_BUILD', value: 'true'
                  }
                 steps {
                         //TODO: ask for command
@@ -147,7 +147,7 @@ pipeline {
 
              stage('Run ITs with coverage (by category)') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command
@@ -174,7 +174,7 @@ pipeline {
             }
              stage('Run FTs (no coverage)') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command
@@ -191,7 +191,7 @@ pipeline {
             }
             stage('Verify Bundle') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command
@@ -203,7 +203,7 @@ pipeline {
 
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command
@@ -217,7 +217,7 @@ pipeline {
 
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -230,7 +230,7 @@ pipeline {
             }
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -243,7 +243,7 @@ pipeline {
             }
             stage('Repack Bundle') {
                    when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -256,7 +256,7 @@ pipeline {
             }
             stage('Upload Bundle') {
                   when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  } 
                 steps {
                         //TODO: ask for command and to be passed
@@ -267,7 +267,7 @@ pipeline {
             }
             stage('OSS Report') {
                   when {
-                      CI_BUILD "NO"
+                      environment name: 'CI_BUILD', value: 'false'
                  } 
                 steps {
                         //TODO: ask for command and to be passed
