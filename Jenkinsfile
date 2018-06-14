@@ -24,7 +24,7 @@ pipeline {
             {
                 steps{
                     powershell returnStdout: true, script: '''
-                            .\\scripts\\jenkins\\MakeBundle_x86_Debug.ps1
+                            .\\scripts\\MakeBundle_x86_Debug.ps1
                             '''
                 }
             }
