@@ -31,7 +31,7 @@ pipeline {
             stage("Restore NuGetPackages FTs")
             {
                 when {
-                     CI_BUILD "false"
+                     CI_BUILD "NO"
                 }
                 steps{
                     //TODO: ask for command
@@ -51,7 +51,7 @@ pipeline {
             stage("Building Shared")
             {
                 when {
-                     CI_BUILD "false"
+                     CI_BUILD "NO"
                 }
                 steps{
                     //TODO: ask for command
@@ -76,7 +76,7 @@ pipeline {
             }
              stage('Building FT') {
                   when {
-                     CI_BUILD "false"
+                     CI_BUILD "NO"
                 }
                 steps {
                         //TODO: ask for command
@@ -147,7 +147,7 @@ pipeline {
 
              stage('Run ITs with coverage (by category)') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command
@@ -174,7 +174,7 @@ pipeline {
             }
              stage('Run FTs (no coverage)') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command
@@ -191,7 +191,7 @@ pipeline {
             }
             stage('Verify Bundle') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command
@@ -203,7 +203,7 @@ pipeline {
 
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command
@@ -217,7 +217,7 @@ pipeline {
 
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -230,7 +230,7 @@ pipeline {
             }
              stage('Uninstall natively') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -243,7 +243,7 @@ pipeline {
             }
             stage('Repack Bundle') {
                    when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  }
                 steps {
                         //TODO: ask for command and to be passed
@@ -256,7 +256,7 @@ pipeline {
             }
             stage('Upload Bundle') {
                   when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  } 
                 steps {
                         //TODO: ask for command and to be passed
@@ -267,7 +267,7 @@ pipeline {
             }
             stage('OSS Report') {
                   when {
-                      CI_BUILD "false"
+                      CI_BUILD "NO"
                  } 
                 steps {
                         //TODO: ask for command and to be passed
@@ -288,7 +288,7 @@ pipeline {
             stage ('Warnings')
             {
                 steps{
-                    step([$class: 'WarningsPublisher', canComputeNew: "false", canResolveRelativePaths: "false", defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'MSBuild', pattern: 'MSBuildFull.log']], unHealthy: ''])
+                    step([$class: 'WarningsPublisher', canComputeNew: "NO", canResolveRelativePaths: "NO", defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'MSBuild', pattern: 'MSBuildFull.log']], unHealthy: ''])
                 }
             
             }
@@ -304,7 +304,7 @@ pipeline {
             }
             stage('Publishing Test Results'){
                 steps{
-                    step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: "false", keepLongStdio: true])
+                    step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: "NO", keepLongStdio: true])
                 }
             }
             stage('Publishing Coverage Report'){
@@ -316,7 +316,7 @@ pipeline {
                             echo 'converting test coverage report...'
                             bat ".\\scripts\\jenkins\\convertreport.bat"
                             echo 'test coverage report convertion completed'
-                            cobertura autoUpdateHealth: "false", autoUpdateStability: "false", coberturaReportFile: 'Cobertura.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: "false", failUnstable: "false", lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: "false", sourceEncoding: 'ASCII', zoomCoverageChart: "false"
+                            cobertura autoUpdateHealth: "NO", autoUpdateStability: "NO", coberturaReportFile: 'Cobertura.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: "NO", failUnstable: "NO", lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: "NO", sourceEncoding: 'ASCII', zoomCoverageChart: "NO"
                   }
             }   
         }
